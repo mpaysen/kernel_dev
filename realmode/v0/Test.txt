@@ -1,0 +1,52 @@
+    bpb_disk_info:
+
+    ; Dos 4.0 EBPB 1.44MB floppy
+    OEMname:           db    "mkfs.fat"  ; mkfs.fat is what OEMname mkdosfs uses
+    bytesPerSector:    dw    36352
+    sectPerCluster:    db    216
+    reservedSectors:   dw    49294
+    numFAT:            db    251
+    numRootDirEntries: dw    190
+    numSectors:        dw    49020
+    mediaType:         db    0
+    numFATsectors:     dw    47366
+    sectorsPerTrack:   dw    512
+    numHeads:          dw    42227
+    numHiddenSectors:  dd    401898
+    numSectorsHuge:    dd    129940992
+    driveNum:          db    56
+    reserved:          db    4
+    signature:         db    117
+    volumeID:          dd    0x10C6830B
+    db 0x81
+    db 0xFE
+    db 0xFE
+    db 0x07
+    db 0x75
+    db 0xF3
+    db 0xEB
+    db 0x16
+    db 0xB4
+    db 0x02
+    db 0xB0
+    db 0x01
+    db 0xBB
+    db 0x00
+    db 0x7C
+    db 0xB2
+    db 0x80
+    db 0x8A
+    db 0x74
+    db 0x01
+    db 0x8B
+    db 0x4C
+    db 0x02
+    db 0xCD
+    db 0x13
+    db 0xEA
+    db 0x00
+    db 0x7C
+    db 0x00
+    db 0x00
+    db 0xEB
+    db 0xFE
