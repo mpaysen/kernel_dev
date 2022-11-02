@@ -5,15 +5,16 @@ FLAGS = -g -ffreestanding -falign-jumps -falign-functions -falign-labels -falign
 # win mode: kex --sl -s
 # test in gdb (linux): target remote | qemu-system-x86_64 -hda bin/os.bin -S -gdb stdio
 # add-symbol-file in gdb (linux): add-symbol-file build/kernelfull.o 0x100000
+# because were loading our kernel into address 0x100000
 # vmware gdb (linux) target remote 192.168.144.1:8832
 # vmware gdb (win) target remote localhost:8832
 # to use vmware debuuging deactivate HYPER-V
 # bcdedit /set hypervisorlaunchtype off
 # bcdedit /set hypervisorlaunchtype auto
 
-# because were loading our kernel into address 0x100000
 
-#cmd: "C:\Program Files\Oracle\VirtualBox\VBoxManage" convertdd E:\Programmieren\Kernel_Dev\protectedmode\v3\bin\os.raw E:\Programmieren\Kernel_Dev\protectedmode\v3\bin\os.vmdk --format vmdk
+
+#cmd: "C:\Program Files\Oracle\VirtualBox\VBoxManage" convertdd E:\Programmieren\Kernel_Dev\protectedmode\v4\bin\os.raw E:\Programmieren\Kernel_Dev\protectedmode\v4\bin\os.vmdk --format vmdk
 
 
 all: ./bin/boot.bin ./bin/kernel.bin # set dependencies

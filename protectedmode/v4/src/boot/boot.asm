@@ -196,7 +196,7 @@ ata_lba_read:
 
 check_disk:
     mov ebx, [0x0100000] ; memory to read first sector of kernel
-    cmp ebx, 0x00044be8 ; first db of sector1 (Signature)
+    cmp ebx, 0x00046be8 ; first db of sector1 (Signature)
     je .return ;  jump if equal
     mov si, string
     call print

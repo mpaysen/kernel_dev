@@ -22,7 +22,7 @@ void terminal_writechar(char c, char colour) {
         terminal_row += 1;
         return;
     }
-    if ((terminal_row >= VGA_HEIGHT-1) & (terminal_col >= VGA_WIDTH)) {
+    if ((terminal_row >= VGA_HEIGHT) & (terminal_col >= VGA_WIDTH)) {
     terminal_row = 0;
     terminal_col = 0;
     }
@@ -63,7 +63,17 @@ void print(const char* str) {
 
 }
 
+void println(const char* str) {
+    print(str);
+    terminal_writechar('\n', 0);
+
+}
+
 void kernel_main() {
     terminal_initialize();
-    print("Kernel loaded...\nTerminal initiated...\n\nOne System to rule them all, One System to find them,\nOne System to bring them all in the darkness and bind them!");
+    println("Kernel loaded...");
+    println("Terminal initiated...");
+    println("");
+    println("One System to rule them all, One System to find them,");
+    println("One System to bring them all in the darkness and bind them!");
 }
