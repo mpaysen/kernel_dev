@@ -1,21 +1,24 @@
 #include "idt.h"
 #include "config.h"
-#include "kernel.h"
+#include "terminal.h"
 #include "memory/memory.h"
 struct idt_desc idt_descriptors[M_OS_TOTAL_INTERRUPS];
 struct idtr_desc idtr_descriptor;
 
+// to know the asm code 
 extern void idt_load(struct idtr_desc* ptr);
 
+
+//what to do; by interrupt zero
 void idt_zero() {
-    print("Devide by zero error\n");
+    print("Devide by zero error\n"); //not println, cause divide zero error wont work with that
 }
 
 //define interrupts, https://wiki.osdev.org/IDT -> Gate Descriptor 
 void idt_set(int interrupt_no, void* address) {
-    struct idt_desc* desc = &idt_descriptors[interrupt_no]; // &idt_descriptors is the address of the idt_descriptors
+    struct idt_desc* desc = &idt_descriptors[interrupt_no]; // &idt_descriptors is the address of the idt_descriptors with the [interrupt no]
     desc->offset_1 = (uint32_t) address & 0x0000ffff;
-    desc->selector = KERNEL_CODE_SEG; //Code_SEG
+    desc->selector = KERNEL_CODE_SEG; //CODE_SEG, defined in config.h
     desc->zero = 0x00;
     desc->type_attribute = 0xEE; // bitewise 11101110, lowest 4 bits fot the type, the zero for Storeagesegment, and the 0b11 for Ring 3, last bit set to zero for unused innterups, set to 1
     desc->offset_2 = (uint32_t) address >> 16; 

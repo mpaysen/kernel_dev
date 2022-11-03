@@ -1,6 +1,8 @@
 #ifndef IDT_H
 #define IDT_H
 
+
+//define interrupt struct, https://wiki.osdev.org/IDT -> Gate Descriptor 
 #include <stdint.h>
 struct idt_desc {
     uint16_t offset_1; // Offset bits 0 - 15
