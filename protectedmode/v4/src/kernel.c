@@ -1,10 +1,11 @@
 #include "kernel.h"
 #include <stdint.h>
 #include <stddef.h>
+#include <idt/idt.h>
 
 uint16_t* video_mem = 0; //initialize uint16_t video_mem, set to 0
-uint16_t terminal_col = 0;
-uint16_t terminal_row = 0;
+uint16_t terminal_x = 0; //initialize uint16_t terminal_x, for the x cordinate 
+uint16_t terminal_y = 0; //initialize uint16_t terminal_y, for the y cordinate 
 
 //Make Char and color
 uint16_t terminal_make_char(char c, char colour) {
@@ -13,30 +14,40 @@ uint16_t terminal_make_char(char c, char colour) {
 
 // output char with coordinates
 void terminal_putchar(int x, int y, char c, char colour ) {
+    //x for the terminal_x
+    //y for the terminal_y
     video_mem[(y * VGA_WIDTH) + x] = terminal_make_char(c, colour);
 }
 
+
+// write char and set the row and or col higher,
+// execute newline char with new row
 void terminal_writechar(char c, char colour) {
-    if (c == '\n') {
-        terminal_col = 0;
-        terminal_row += 1;
+    // newline char definition
+    if ((c == '\n') ) {
+        terminal_x = 0;
+        terminal_y += 1;
         return;
     }
-    if ((terminal_row >= VGA_HEIGHT) & (terminal_col >= VGA_WIDTH)) {
-    terminal_row = 0;
-    terminal_col = 0;
+    //set x and y to zero if the end of terminal is reached
+    if ((terminal_x >= VGA_WIDTH) & (terminal_y >= VGA_HEIGHT)) {
+        terminal_x = 0;
+        terminal_y = 0;
     }
-    if (terminal_col >= VGA_WIDTH) {
-        terminal_col = 0;
-        terminal_row += 1;
+    // orset the row one higher if the end of the terminal line is reached
+    if (terminal_x >= VGA_WIDTH) {
+        terminal_x = 0;
+        terminal_y += 1;
     }
-    terminal_putchar(terminal_col, terminal_row, c, colour);
-    terminal_col +=1;
+    //put the char on the current x and y position
+    terminal_putchar(terminal_x, terminal_y, c, colour);
+    terminal_x +=1;
 }
 
-void terminal_initialize() { //Clean the Screen
-    terminal_col = 0;
-    terminal_row = 0;
+//Clear the Screen and initialize the video mem address
+void terminal_initialize() { //Clear the Screen
+    terminal_x = 0;
+    terminal_y = 0;
     video_mem = (uint16_t*)(0xB8000);
     for (int y = 0; y < VGA_HEIGHT; y++) { // HEIGHT
         for (int x = 0; x < VGA_WIDTH; x++) { //WIDTH
@@ -53,7 +64,7 @@ size_t strlen(const char* str) {
 
     return len;
 }
-
+// print all chars of a str with the terminal_writechar function 
 void print(const char* str) {
     size_t len = strlen(str);
     for (int i = 0; i < len; i++) {
@@ -62,7 +73,7 @@ void print(const char* str) {
     
 
 }
-
+// print all chars of a str with the terminal_writechar function  and append a new line char
 void println(const char* str) {
     print(str);
     terminal_writechar('\n', 0);
@@ -70,10 +81,17 @@ void println(const char* str) {
 }
 
 void kernel_main() {
+    idt_init();
     terminal_initialize();
     println("Kernel loaded...");
     println("Terminal initiated...");
     println("");
     println("One System to rule them all, One System to find them,");
     println("One System to bring them all in the darkness and bind them!");
+    //terminal_initialize();
+    //print("FFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGFFFFFHHHHHAAAAAGGGGGTTTTT");
+
+
+    // Initialize the interrupt descriptor table
+
 }

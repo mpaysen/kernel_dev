@@ -5,5 +5,7 @@
 #define VGA_HEIGHT 24 // 0 -> 24 = 25
 
 void kernel_main();
+void print(const char* str);
+void println(const char* str);
 
 #endif
