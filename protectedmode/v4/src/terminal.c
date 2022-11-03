@@ -28,12 +28,12 @@ void terminal_writechar(char c, char colour) {
         terminal_y += 1;
         return;
     }
-    //set x and y to zero if the end of terminal is reached
+    // set x and y to zero if the end of terminal is reached
     if ((terminal_x >= VGA_WIDTH) & (terminal_y >= VGA_HEIGHT)) {
         terminal_x = 0;
         terminal_y = 0;
     }
-    // orset the row one higher if the end of the terminal line is reached
+    // set the row one higher if the end of the terminal line is reached
     if (terminal_x >= VGA_WIDTH) {
         terminal_x = 0;
         terminal_y += 1;
@@ -72,7 +72,7 @@ void print(const char* str) {
     
 
 }
-// print all chars of a str with the terminal_writechar function  and append a new line char
+// print all chars of a str with the terminal_writechar function and append a new line char
 void println(const char* str) {
     print(str);
     terminal_writechar('\n', 0);
