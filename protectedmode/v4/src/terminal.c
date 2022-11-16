@@ -19,6 +19,7 @@ void terminal_putchar(int x, int y, char c, char colour ) {
 }
 
 
+
 // write char and set the row and or col higher,
 // execute newline char with new row
 void terminal_writechar(char c, char colour) {
@@ -54,6 +55,7 @@ void terminal_initialize() { //Clear the Screen
         }
     }
 }
+
 // get the string lenght
 size_t strlen(const char* str) {
     size_t len = 0;
