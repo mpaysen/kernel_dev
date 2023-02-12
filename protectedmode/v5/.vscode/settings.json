@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "stdint.h": "c",
+        "stddef.h": "c",
+        "memory.h": "c",
+        "kheap.h": "c",
+        "paging.h": "c",
+        "config.h": "c"
+    }
+}
