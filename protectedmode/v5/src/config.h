@@ -11,5 +11,10 @@
 #define M_OS_HEAP_TABLE_ADDRESS 0x00007E00
 
 //
-#define M_OS_SECTOR_SIZE 512 //secctor size of a normal Harddisk
+#define M_OS_SECTOR_SIZE 512 //sector size of a normal Harddisk
+
+#define LOGO "                                                                                 @@gg         ,gggggL,                                                            !%@@C       @@@@@@@@@@                                                           .@@@      ]@@@K  $@@@k  ,gggggggw gggg   ggg= ,gggggg   ,gggggg  ,ggg ;gggw    ,@@@C      @@@@Wgg@@@@`g@@@PT]@@@h %@@@  @@@M ]@@@T    ,@@@^  @@@k @@@@@M@@@@   ]@@@T      J@@@@%%%N*T ]@@@C  @@@@  j@@@.@@@C   %@@@@W  @@@@@@@@M ]@@@h  @@@%   J@@$       @@@@        ]@@@kg@@@@K   @@@@@@T      ]@@@M @@@b      @@@@  (@@@M    !%@@g     %%%%         *%@%C]%%%C   ]@@@@    R%@@@%M'   %0@@%N  J%%%K  %%%%                                      ggg@@@M                                                                         #%%PM                                       "
+
+#define M_OS_LOGO 1
+#define M_OS_STATUS 1
 #endif

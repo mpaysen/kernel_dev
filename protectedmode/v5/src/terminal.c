@@ -1,4 +1,5 @@
 #include "terminal.h"
+#include "string/string.h"
 #include <stdint.h>
 #include <stddef.h>
 
@@ -56,15 +57,6 @@ void terminal_initialize() { //Clear the Screen
     }
 }
 
-// get the string lenght
-size_t strlen(const char* str) {
-    size_t len = 0;
-    while(str[len]) {
-        len ++;
-    }
-
-    return len;
-}
 // print all chars of a str with the terminal_writechar function 
 void print(const char* str) {
     size_t len = strlen(str);

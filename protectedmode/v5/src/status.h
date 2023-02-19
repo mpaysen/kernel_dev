@@ -5,4 +5,5 @@
 #define M_OS_IO_ERROR 1
 #define EINVARG 2
 #define ENOMEM 3
+#define EBADPATH 4
 #endif 

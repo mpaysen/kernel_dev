@@ -1,4 +1,4 @@
-FILES = ./build/kernel.asm.o ./build/kernel.o ./build/terminal.o ./build/idt/idt.asm.o ./build/io/io.asm.o ./build/vga.asm.o ./build/idt/idt.o ./build/memory/memory.o ./build/memory/heap/heap.o ./build/memory/heap/kheap.o ./build/memory/paging/paging.o ./build/memory/paging/paging.asm.o ./build/disk/disk.o
+FILES = ./build/kernel.asm.o ./build/kernel.o ./build/terminal.o ./build/idt/idt.asm.o ./build/io/io.asm.o ./build/vga/vga.asm.o ./build/idt/idt.o ./build/memory/memory.o ./build/memory/heap/heap.o ./build/memory/heap/kheap.o ./build/memory/paging/paging.o ./build/memory/paging/paging.asm.o ./build/disk/disk.o ./build/string/string.o ./build/fs/pparser.o ./build/disk/streamer.o
 INCLUDES = -I./src
 FLAGS = -g -ffreestanding -falign-jumps -falign-functions -falign-labels -falign-loops -fstrength-reduce -fomit-frame-pointer -finline-functions -Wno-unused-function -fno-builtin -Werror -Wno-unused-label -Wno-cpp -Wno-unused-parameter -nostdlib -nostartfiles -nodefaultlibs -Wall -O0 -Iinc
 
@@ -50,8 +50,8 @@ message: ./bin/boot.bin
 ./build/io/io.asm.o: ./src/io/io.asm
 	nasm -f elf -g ./src/io/io.asm -o ./build/io/io.asm.o # -g for debugging
 
-./build/vga.asm.o: ./src/vga.asm
-	nasm -f elf -g ./src/vga.asm -o ./build/vga.asm.o # -g for debugging
+./build/vga/vga.asm.o: ./src/vga/vga.asm
+	nasm -f elf -g ./src/vga/vga.asm -o ./build/vga/vga.asm.o # -g for debugging
 
 ./build/kernel.o: ./src/kernel.c
 	i686-elf-gcc $(INCLUDES) $(FLAGS) -c -std=gnu99 ./src/kernel.c -o ./build/kernel.o 
@@ -80,6 +80,17 @@ message: ./bin/boot.bin
 ./build/disk/disk.o: ./src/disk/disk.c
 	i686-elf-gcc $(INCLUDES) -I./src/disk $(FLAGS) -c -std=gnu99 ./src/disk/disk.c -o ./build/disk/disk.o
 
+./build/fs/pparser.o: ./src/fs/pparser.c
+	i686-elf-gcc $(INCLUDES) -I./src/fs $(FLAGS) -c -std=gnu99 ./src/fs/pparser.c -o ./build/fs/pparser.o
+
+./build/string/string.o: ./src/string/string.c
+	i686-elf-gcc $(INCLUDES) -I./src/string $(FLAGS) -c -std=gnu99 ./src/string/string.c -o ./build/string/string.o
+
+./build/disk/streamer.o: ./src/disk/streamer.c
+	i686-elf-gcc $(INCLUDES) -I./src/disk $(FLAGS) -c -std=gnu99 ./src/disk/streamer.c -o ./build/disk/streamer.o
+
+
+
 clean:
 	# remove ./bin
 	rm -rf ./bin/boot.bin
@@ -94,7 +105,6 @@ clean:
 	rm -rf ./build/kernelfull.o
 	rm -rf ./build/kernel.o
 	rm -rf ./build/terminal.o 
-	rm -rf ./build/vga.asm.o
 	# remove ./build/memory
 	rm -rf ./build/memory/memory.o
 	rm -rf ./build/memory/heap/heap.o
@@ -108,3 +118,10 @@ clean:
 	rm -rf ./build/io/io.asm.o
 	# remove ./build/disk
 	rm -rf ./build/disk/disk.o
+	rm -rf ./build/disk/streamer.o
+	# remove ./build/string
+	rm -rf ./build/string/string.o
+	# remove ./build/fs
+	rm -rf ./build/fs/pparser.o
+	# remove ./build/vga
+	rm -rf ./build/vga/vga.asm.o
